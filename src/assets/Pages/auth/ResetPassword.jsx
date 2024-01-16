@@ -1,10 +1,11 @@
 import React from 'react'
+import BaseLayout from '../../../Components/BaseLayout'
 
 const ResetPassword = () => {
   return (
-    <div>
+     <BaseLayout>
       resetpassword
-    </div>
+      </BaseLayout>
   )
 }
 
