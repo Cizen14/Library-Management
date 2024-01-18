@@ -4,6 +4,7 @@ import BaseLayout from '../../../Components/BaseLayout'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import CustomInput from '../../../Components/CustomInput/CustomInput';
+import { toast } from 'react-toastify';
 
 const inputs = [
   { name: "fName",label:"First Name", placeholder: "Enter First Name", type:"text", required:true},
@@ -11,7 +12,7 @@ const inputs = [
   { name: "phone",label:"Phone", placeholder: "Enter your Number", type:"number", required:true},
   { name: "email",label:"Email", placeholder: "Enter Your Email", type:"email", required:true},
   { name: "password",label:"Password", placeholder: "Enter Your Password", type:"password", required:true, minLength:6},
-  { name: "ConfirmPassword",label:"Confirm Password", placeholder: "Re-enter Your Password", type:"Password", required:true},
+  { name: "confirmPassword",label:"Confirm Password", placeholder: "Re-enter Your Password", type:"Password", required:true},
 
 ]
 
@@ -26,6 +27,17 @@ const AdminSignup = () => {
 
   const handleSubmit = (e) =>{
     e.preventDefault();
+    const {password, confirmPassword}= formData;
+    
+    if(password !== confirmPassword){
+     return toast.error("Password Didnot match");
+    }
+    
+   
+      toast("SignedUp Successfully !!!");
+  
+   
+    
   }
   return (
    <>
