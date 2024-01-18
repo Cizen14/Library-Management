@@ -5,6 +5,11 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import CustomInput from '../../../Components/CustomInput/CustomInput';
 import { toast } from 'react-toastify';
+import {  createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../../../firebase-config';
+
+
+
 
 const inputs = [
   { name: "fName",label:"First Name", placeholder: "Enter First Name", type:"text", required:true},
@@ -25,16 +30,37 @@ const AdminSignup = () => {
     setFormData({...formData, [name]: value});
   }
 
-  const handleSubmit = (e) =>{
+  const handleSubmit = async (e) =>{
     e.preventDefault();
-    const {password, confirmPassword}= formData;
+    const {email, password, confirmPassword}= formData;
     
     if(password !== confirmPassword){
      return toast.error("Password Didnot match");
     }
-    
+          const signupPromise=  createUserWithEmailAndPassword(auth, email, password)
+        toast.promise(signupPromise,{
+          pending:"In Progress..."
+
+        });
+        try {
+          const userCredential = await signupPromise;
+          toast("User Created Successfully");
+        }
+        catch(error){
+          const errorCode = error.code;
+         
+
+          if(errorCode.includes("auth/email-already-in-use")){
+
+            toast.error("Account Already exists"
+            
+            );
+          }else {
+            toast.error (error.message);
+          }
+        };
    
-      toast("SignedUp Successfully !!!");
+     
   
    
     
