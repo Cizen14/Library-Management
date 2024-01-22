@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import CustomInput from '../../../Components/CustomInput/CustomInput';
 import { toast } from 'react-toastify';
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { loginauth } from '../../../firebase-config';
+import { auth } from '../../../firebase-config';
 import { useNavigate } from 'react-router-dom';
 const inputs = [
  
@@ -26,27 +26,32 @@ const Login = () => {
   const handleSubmit = async(e) =>{
     e.preventDefault();
     const {email, password} = formData;
-    signInWithEmailAndPassword(loginauth, email, password)
-  .then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    toast("logged In ")
-    navigate('/dashboard');
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
+    try{
+      const signInPromise = signInWithEmailAndPassword(auth, email, password);
+      toast.promise(signInPromise,{
+        pending: "In Progress"
+      });
+      const userCredential= await signInPromise;
+      toast("Logged In Successfully");
+      navigate('/dashboard');
+      }
+   
+  
+   
+  catch(e) {
+    const errorCode = e.code;
+    
     if(errorCode.includes("auth/invalid-credential")){
       toast.error("Invalid Email or Password")
     }
-  });
+  };
+}
 
    
 
    
 
- }
+ 
   
   return (
    <BaseLayout>
@@ -67,5 +72,5 @@ const Login = () => {
     </BaseLayout>
   )
 
- }
+  }
 export default Login
