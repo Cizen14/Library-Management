@@ -52,9 +52,7 @@ const AdminSignup = () => {
 
           if(errorCode.includes("auth/email-already-in-use")){
 
-            toast.error("Account Already exists"
-            
-            );
+            toast.error("Account Already exists");
           }else {
             toast.error (error.message);
           }
