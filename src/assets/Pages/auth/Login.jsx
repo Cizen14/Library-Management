@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BaseLayout from '../../../Components/BaseLayout'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -7,6 +7,9 @@ import { toast } from 'react-toastify';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../../../firebase-config';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserInfo } from '../../../redux/authSlice';
+
 const inputs = [
  
   { name: "email",label:"Email", placeholder: "Enter Your Email", type:"email", required:true},
@@ -16,6 +19,8 @@ const inputs = [
 
 const Login = () => {
   const [formData, setFormData] = useState({});
+  const dispatch = useDispatch();
+  const {userInfo} = useSelector(state => state.auth);
   const navigate = useNavigate();
 
   const handleChange = (e)=>{
@@ -32,11 +37,14 @@ const Login = () => {
         pending: "In Progress"
       });
       const userCredential= await signInPromise;
+      dispatch(setUserInfo(userCredential.user));
+
+      
       toast("Logged In Successfully");
-      navigate('/dashboard');
+      
       }
    
-  
+
    
   catch(e) {
     const errorCode = e.code;
@@ -47,12 +55,15 @@ const Login = () => {
   };
 }
 
-   
+useEffect(()=>{
+  if(userInfo.uid){
+    navigate('/dashboard');
+  }
+
+}, [userInfo])
+
 
    
-
- 
-  
   return (
    <BaseLayout>
    <div className='p-3 border shadow rounded login-form'>
