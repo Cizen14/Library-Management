@@ -6,7 +6,10 @@ import Form from 'react-bootstrap/Form';
 import CustomInput from '../../../Components/CustomInput/CustomInput';
 import { toast } from 'react-toastify';
 import {  createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../../../firebase-config';
+import { auth, db } from '../../../firebase-config';
+import { doc, setDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
+
 
 
 
@@ -24,6 +27,7 @@ const inputs = [
 
 
 const AdminSignup = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({});
   const handleChange = (e)=>{
     const {name , value} = e.target;
@@ -32,7 +36,9 @@ const AdminSignup = () => {
 
   const handleSubmit = async (e) =>{
     e.preventDefault();
-    const {email, password, confirmPassword}= formData;
+    const { password, confirmPassword, ...restFormData}= formData;
+    const {email}= formData;
+
     
     if(password !== confirmPassword){
      return toast.error("Password Didnot match");
@@ -45,6 +51,12 @@ const AdminSignup = () => {
         try {
           const userCredential = await signupPromise;
           toast("User Created Successfully");
+          navigate('/login');
+          const {uid} = userCredential.user;
+
+          await setDoc (doc(db, "users", uid),{
+            ...restFormData, uid
+          });
         }
         catch(error){
           const errorCode = error.code;
