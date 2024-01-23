@@ -42,12 +42,10 @@ const Login = () => {
 
       dispatch(getUserInfoAction(user.uid));
      }
-   
 
-   
   catch(e) {
+    console.log(e)
     const errorCode = e.code;
-    
     if(errorCode.includes("auth/invalid-credential")){
       toast.error("Invalid Email or Password")
     }

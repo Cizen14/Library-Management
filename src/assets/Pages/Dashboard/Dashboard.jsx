@@ -1,12 +1,17 @@
-import React from 'react'
-import BaseLayout from '../../../Components/BaseLayout'
+import React, { Children } from 'react'
+
+import AdminLayout from '../../../Components/Layout/AdminLayout'
 
 const Dashboard = () => {
   return (
     <>
-  <BaseLayout>
-      Dashboard Component
-    </BaseLayout>
+     
+      
+        <AdminLayout>
+          Dashboard
+        </AdminLayout>
+     
+      
     </>
   )
 }
