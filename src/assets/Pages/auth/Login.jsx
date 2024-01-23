@@ -8,7 +8,8 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../../../firebase-config';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUserInfo } from '../../../redux/authSlice';
+import { getUserInfoAction } from '../../../redux/authAction';
+
 
 const inputs = [
  
@@ -37,12 +38,10 @@ const Login = () => {
         pending: "In Progress"
       });
       const userCredential= await signInPromise;
-      dispatch(setUserInfo(userCredential.user));
+      const {user} = userCredential;
 
-      
-      toast("Logged In Successfully");
-      
-      }
+      dispatch(getUserInfoAction(user.uid));
+     }
    
 
    
