@@ -3,12 +3,27 @@ import React from 'react'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { Link } from 'react-router-dom';
-import Dashboard from '../../assets/Pages/Dashboard/Dashboard';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserInfo } from '../../redux/authSlice';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../firebase-config';
 
 
 
 const Header = () => {
+  const {userInfo} = useSelector(state=> state.auth);
+  const dispatch = useDispatch();
+
+  const handleLogout = () =>{
+    signOut(auth). then(()=>{
+      dispatch(setUserInfo({}));
+    })
+    .catch((e) => {
+      toast.error(e.message)
+    })
+  }
   return (
     <Navbar expand="lg" bg='dark' variant="dark" >
       <Container >
@@ -18,7 +33,19 @@ const Header = () => {
           <Nav className="ms-auto">
             <Link to="/dashboard" className='nav-link'>Dashboard</Link>
             <Link to="/admin-signup" className='nav-link'>Signup</Link>
-            <Link to="/login" className='nav-link'>Login</Link>
+
+            {userInfo.uid ?  (
+              <Link to="#" onClick={handleLogout} className='nav-link'>Logout</Link>
+             
+
+            )
+            : (
+              <Link to="/login" className='nav-link'>Login</Link>
+
+            )}
+
+           
+            
          
             
           </Nav>
