@@ -9,6 +9,8 @@ import Dashboard from './assets/Pages/Dashboard/Dashboard'
 import AddBook from './assets/Pages/Books/AddBook'
 import EditBook from './assets/Pages/Books/EditBook'
 import Books from './assets/Pages/Books/Books'
+import PrivateRoute from './Components/PrivateRoute/PrivateRoute'
+import History from './assets/Pages/History/History'
 
 
 
@@ -23,13 +25,13 @@ function App() {
       <Route path='/admin-signup' element={ <AdminSignup />} />
       <Route path='/reset-password' element={ <ResetPassword />} />
 
-      <Route path='/dashboard' element={<Dashboard/>} />
+      <Route path='/dashboard' element={<PrivateRoute><Dashboard/></PrivateRoute>} />
       
-      <Route path='/history' element={<History/>} />
+      <Route path='/history' element={<PrivateRoute><History/></PrivateRoute>} />
       
-      <Route path='/books/add' element={<AddBook/>} />
-      <Route path='/books/edit' element={<EditBook/>} />
-      <Route path='/books' element={<Books/>} />
+      <Route path='/books/add' element={<PrivateRoute><AddBook/></PrivateRoute> }/>
+      <Route path='/books/edit' element={<PrivateRoute><EditBook/></PrivateRoute>} />
+      <Route path='/books' element={<PrivateRoute><Books/></PrivateRoute>} />
 
 
     

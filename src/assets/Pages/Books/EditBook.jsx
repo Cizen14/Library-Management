@@ -1,9 +1,12 @@
 import React from 'react'
+import AdminLayout from '../../../Components/Layout/AdminLayout'
 
 const EditBook = () => {
   return (
     <div>
-      Edit book
+      <AdminLayout title={"Edit Book"}>
+          
+          </AdminLayout>
     </div>
   )
 }

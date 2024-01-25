@@ -4,6 +4,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import CustomInput from '../../../Components/CustomInput/CustomInput';
 import { toast } from 'react-toastify';
+import { sendPasswordResetEmail } from 'firebase/auth';
+import { auth } from '../../../firebase-config';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const inputs = [
  
@@ -14,16 +17,33 @@ const inputs = [
 
 const ResetPassword = () => {
   const [formData, setFormData] = useState({});
-
-  const handleChange = (e)=>{
-    const {name , value} = e.target;
+  const navigate = useNavigate();
+  const handleChange = (e) =>
+ {
+  const {name , value} = e.target;
     setFormData({...formData, [name]: value});
+ }
+  const handleSubmit = (e)=>{
+    e.preventDefault();
+    const {email} = formData;
+
+    sendPasswordResetEmail(auth, email)
+    .then(()=>{
+      toast.success("Please check your email")
+      navigate('/login');
+    })
+    
+    .catch((error)=> {
+      const errorMessage = error.message;
+      toast.error("Something Went Wrong")
+    });
+
+
+
+    
   }
 
-  const handleSubmit = (e) =>{
-    e.preventDefault();
-    toast("Password Sent in the Email");
-  }
+
   return (
      <BaseLayout>
       <div className='p-3 border shadow rounded login-form'>

@@ -1,4 +1,4 @@
-import React, { Children } from 'react'
+import React from 'react'
 
 import AdminLayout from '../../../Components/Layout/AdminLayout'
 
@@ -7,8 +7,8 @@ const Dashboard = () => {
     <>
      
       
-        <AdminLayout>
-          Dashboard
+        <AdminLayout title={"Dashboard"}>
+          
         </AdminLayout>
      
       

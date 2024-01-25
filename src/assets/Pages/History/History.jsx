@@ -1,10 +1,15 @@
 import React from 'react'
+import AdminLayout from '../../../Components/Layout/AdminLayout'
 
 const History = () => {
   return (
-    <>
-      History Component
-    </>
+
+    <div>
+      <AdminLayout title={"History"}>
+          
+          </AdminLayout>
+     </div>
+    
   )
 }
 
