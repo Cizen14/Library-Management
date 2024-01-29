@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import AdminLayout from '../../../Components/Layout/AdminLayout'
 import { Button, Form } from 'react-bootstrap'
 import CustomInput from '../../../Components/CustomInput/CustomInput'
 import { addBookAction } from '../../../redux/books/bookAction'
 import { toast } from 'react-toastify'
+import { Link } from 'react-router-dom'
 
 const inputs = [
  
@@ -26,6 +27,7 @@ const initialBookValue= {
 }
 
 const AddBook = () => {
+  const formRef = useRef();
   const [formData, setFormData] = useState(
    initialBookValue
   );
@@ -58,9 +60,10 @@ const AddBook = () => {
   return (
     <div>
      <AdminLayout title={"Add Book"}>
+      <Link to={'/books'}><Button>Go back </Button></Link>
      <div className='p-3 border shadow rounded login-form'>
     <h1>New Book Info</h1>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} ref={formRef}>
       {
         inputs.map(input=>(
           <CustomInput key={input.name} label={input.label} value={formData[input.name]} onChange={handleChange}{...input}/>
