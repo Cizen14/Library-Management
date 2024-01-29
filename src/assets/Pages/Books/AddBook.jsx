@@ -59,7 +59,8 @@ const AddBook = () => {
 
   return (
     <div>
-     <AdminLayout title={"Add Book"}>
+     <AdminLayout title={"Edit Book"}>
+    
       <Link to={'/books'}><Button>Go back </Button></Link>
      <div className='p-3 border shadow rounded login-form'>
     <h1>New Book Info</h1>

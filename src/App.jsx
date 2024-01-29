@@ -30,7 +30,7 @@ function App() {
       <Route path='/history' element={<PrivateRoute><History/></PrivateRoute>} />
       
       <Route path='/books/add' element={<PrivateRoute><AddBook/></PrivateRoute> }/>
-      <Route path='/books/edit' element={<PrivateRoute><EditBook/></PrivateRoute>} />
+      <Route path='/books/edit/:id' element={<PrivateRoute><EditBook/></PrivateRoute>} />
       <Route path='/books' element={<PrivateRoute><Books/></PrivateRoute>} />
 
 
