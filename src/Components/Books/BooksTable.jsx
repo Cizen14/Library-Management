@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import {Button, Table} from 'react-bootstrap'
-import { getBookListAction } from '../../redux/books/bookAction'
+import { deleteBookAction, getBookListAction } from '../../redux/books/bookAction'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
@@ -12,18 +12,15 @@ const BooksTable = () => {
     console.log(bookList)
 
     
+
    
-  //save to redux store.
-  //get the books from the redux
+ const handleDelete = (id) =>{
+  console.log(id)
+  dispatch(deleteBookAction(id));
 
+ }
 
-  //display the book in the table.
-
-  useEffect(()=>{
-
-    console.log("call in user ")
-      dispatch(getBookListAction());
-  }, [])
+  
 
 
   return (
@@ -56,7 +53,11 @@ const BooksTable = () => {
                 <td>
                     <Link to={`/books/edit/${book.id}`}>
                     < Button variant='warning'>Edit</Button>
+                  
                     </Link>
+                    <Button variant='danger' onClick={()=> {
+                      console.log(book.id);
+                      handleDelete(book.id)}}>Delete</Button>
                 </td>
             </tr>
         ))

@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDoc, getDocs, setDoc} from "firebase/firestore"
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, setDoc} from "firebase/firestore"
 import { db } from "../../firebase-config"
 import { toast } from "react-toastify";
 import { setBookList, setSelectedBook } from "./bookSlice";
@@ -38,6 +38,7 @@ try{
      });
  
      dispatch(setBookList(booksListArr));
+     console.log('book fetched');
         }
 catch(error){
  console.log(error.message)
@@ -73,8 +74,24 @@ export const getBookByIdAction = (id) => async (dispatch) =>{
             
             toast.error("Book Not found!")
             
-            
         }
+    }
+    catch(e){
+        console.log(e);
+    }
+}
+
+export const deleteBookAction = (id)=> async(dispatch) =>{
+    try{
+        
+        const bookRef = (doc(db, "books", id));
+        const docPromise = deleteDoc(bookRef);
+        toast.promise(docPromise, {
+            pending:'In Progress ...'
+        })
+        await deleteDoc(bookRef)
+        dispatch(getBookListAction())
+        toast.success("Book Deleted")
     }
     catch(e){
         console.log(e);

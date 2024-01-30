@@ -28,9 +28,7 @@ const initialBookValue= {
 
 const AddBook = () => {
   const formRef = useRef();
-  const [formData, setFormData] = useState(
-   initialBookValue
-  );
+  const [formData, setFormData] = useState(initialBookValue );
   
   const handleChange = (e)=>{
     const {name , value} = e.target;
