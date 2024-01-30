@@ -1,10 +1,11 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import AdminLayout from '../../../Components/Layout/AdminLayout'
 import { Button, Form } from 'react-bootstrap'
 import CustomInput from '../../../Components/CustomInput/CustomInput'
-import { addBookAction } from '../../../redux/books/bookAction'
-import { toast } from 'react-toastify'
+import { getBookByIdAction, getBookListAction, updateBookAction } from '../../../redux/books/bookAction'
+
 import { Link, useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 
 const inputs = [
  
@@ -22,16 +23,16 @@ const initialBookValue= {
   author: '',
   summary : '',
   year:'',
-  url: ''
+  url: '',
 
 }
 
 const EditBook = () => {
+  const {selectedBook} = useSelector(state =>state.book);
+  const dispatch = useDispatch();
   const param = useParams();
   const formRef = useRef();
-  const [formData, setFormData] = useState(
-   initialBookValue
-  );
+  const [formData, setFormData] = useState( initialBookValue);
   
   const handleChange = (e)=>{
     const {name , value} = e.target;
@@ -39,36 +40,49 @@ const EditBook = () => {
   }
   const handleSubmit = async(e) =>{
     e.preventDefault();
-    const {email, password} = formData;
+    
     try{
-      const {year} = formData;
       
-      if (year > new Date().getFullYear()){
-        return toast.error("Published Year is invalid");
-      }
-
-      addBookAction(formData);
-
-      //reset form data
-      setFormData({initialBookValue});
-     }
-
+     updateBookAction(formData);
+     dispatch(getBookListAction());
+    }
   catch(e) {
+    console.log(e);
    
 }
   }
+
+  useEffect(()=>{
+    
+    // const bookEdit = bookList.find(book =>book.id ===param.id);
+    dispatch(getBookByIdAction(param.id));
+  }, [param.id]);
+
+  useEffect(()=>{
+    
+    if (selectedBook.id){
+      setFormData(selectedBook)
+    }
+  }, [selectedBook])
 
   return (
     <div>
       <AdminLayout title={"Edit Book"}>
 
-          <Link to={'/books'}><Button>Go back </Button></Link>
+          <Link to={'/books'}>
+            <Button>Go back </Button>
+            </Link>
      <div className='p-3 border shadow rounded login-form'>
     <h1> Edit Book Info</h1>
       <Form onSubmit={handleSubmit} ref={formRef}>
       {
         inputs.map(input=>(
-          <CustomInput key={input.name} label={input.label} value={formData[input.name]} onChange={handleChange}{...input}/>
+          <CustomInput 
+          key={input.name} 
+          label={input.label} 
+          value={formData[input.name]} 
+          onChange={handleChange}
+          {...input}/>
         ))
       }
      

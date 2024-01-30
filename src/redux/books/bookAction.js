@@ -1,7 +1,9 @@
-import { addDoc, collection, getDocs} from "firebase/firestore"
+import { addDoc, collection, doc, getDoc, getDocs, setDoc} from "firebase/firestore"
 import { db } from "../../firebase-config"
 import { toast } from "react-toastify";
-import { setBookList } from "./bookSlice";
+import { setBookList, setSelectedBook } from "./bookSlice";
+
+
 
 export const addBookAction = async (bookInfo) =>{
     try{
@@ -13,36 +15,68 @@ export const addBookAction = async (bookInfo) =>{
     catch (e){
 
         toast.error("Error Occured")
-
-
     }
 }
 
-export const getBookList = () => async(dispatch)=>{
+export const getBookListAction = () => async(dispatch)=>{
 try{
-    console.log("hello")
+
+    //get the books list from the firebase db
+
     const querySnapshotPromise= getDocs(collection(db, 'books'));
     toast.promise(querySnapshotPromise,{
         pending:'In Progress ...'
     })
-    const querySnapshot= await querySnapshotPromise
+    const querySnapshot= await querySnapshotPromise;
     const booksListArr= [];
     querySnapshot.forEach((doc) => {
            const id = doc.id;
            const bookData = doc.data();
-           console.log("inside loop", bookData);
-          
-           booksListArr.push({id, ...bookData
-            
+           booksListArr.push({id, 
+            ...bookData
         });
-        console.log("hello");
-
      });
-     console.log(booksListArr);
+ 
      dispatch(setBookList(booksListArr));
-    }
-catch(e){
- console.log(e.message)
-toast('failed',e.message);
+        }
+catch(error){
+ console.log(error.message)
+toast('failed',error.message);
 }
+}
+
+export const updateBookAction = async ({ id, ...restBook }) => {
+    try {
+      const bookRef = doc(db, "books", id);
+      await setDoc(bookRef, restBook, { merge: true })
+      toast.success("Book updated!")
+    } catch(e) {
+      console.log(e);
+    }
+  }
+
+export const getBookByIdAction = (id) => async (dispatch) =>{
+    
+     
+    try{
+        //get the user document from firebase database
+        const docRef= doc(db, 'books', id);
+        const docSnap = await getDoc(docRef);
+        
+        if (docSnap.exists()){
+            const book = {
+                ...docSnap.data(), id
+            }
+            dispatch(setSelectedBook(book))
+        }
+        else{
+            
+            toast.error("Book Not found!")
+            
+            
+        }
+    }
+    catch(e){
+        console.log(e);
+    }
 }

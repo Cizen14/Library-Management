@@ -1,25 +1,28 @@
 import React, { useEffect } from 'react'
 import {Button, Table} from 'react-bootstrap'
-import { getBookList } from '../../redux/books/bookAction'
+import { getBookListAction } from '../../redux/books/bookAction'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 const BooksTable = () => {
     const dispatch = useDispatch();
 
+    //get book list from redux
     const {bookList} = useSelector(state=>state.book);
     console.log(bookList)
 
-
-    //get books from the fire base database
+    
+   
   //save to redux store.
   //get the books from the redux
+
+
   //display the book in the table.
 
   useEffect(()=>{
 
     console.log("call in user ")
-      dispatch(getBookList());
+      dispatch(getBookListAction());
   }, [])
 
 
