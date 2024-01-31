@@ -11,6 +11,8 @@ import EditBook from './assets/Pages/Books/EditBook'
 import Books from './assets/Pages/Books/Books'
 import PrivateRoute from './Components/PrivateRoute/PrivateRoute'
 import History from './assets/Pages/History/History'
+import Home from './assets/Pages/home/Home'
+import BookLanding from './assets/Pages/Books/BookLanding'
 
 
 
@@ -20,7 +22,8 @@ function App() {
   return (
     <>
      <Routes>
-      <Route path='/' element={ <Login />} />
+      <Route path='/' element={ <Home />} />
+      <Route path='/books/:id' element={ <BookLanding />}></Route>
       <Route path='/login' element={ <Login />} />
       <Route path='/admin-signup' element={ <AdminSignup />} />
       <Route path='/reset-password' element={ <ResetPassword />} />
