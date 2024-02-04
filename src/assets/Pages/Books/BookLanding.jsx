@@ -2,17 +2,20 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import BaseLayout from "../../../Components/BaseLayout";
 import { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateBookAction } from "../../../redux/books/bookAction";
+
+//converted days into ms 
+const FOURTEEN_DAYS_IN_MS = 14 * 24 * 60 * 60 *1000;
 
 
 const BookLanding = () => {
   const { id } = useParams();
   const {userInfo} = useSelector(state=>state.auth)
-  console.log(id)
-  const {bookList} = useSelector(state => state.book);
-
+ const {bookList} = useSelector(state => state.book);
   const [ selectedBook, setSelectedBook] = useState({});
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
 
   // 1. Display the book detail based on the id
@@ -27,6 +30,32 @@ const BookLanding = () => {
 
   // login -> if path exists navigate to path else dashboard
 
+  const handleOnBorrow = () =>{
+    const availableForm = Date.now() + FOURTEEN_DAYS_IN_MS;
+
+    // 1. create borrowHistory -who what when
+    const borrowHistory ={
+      userId: userInfo.uid,
+      userName: userInfo.fName,
+      bookId: id,
+      bookTitle: selectedBook.title,
+      url: selectedBook.url,
+      borrowAt: Date.now(),
+      availableForm
+    }
+
+    addBorrowHistoryAction(borrowHistory)
+
+    dispatch(updateBookAction({
+      id,
+      isAvailable: false,
+      availableForm
+    }))
+
+    //2. cannot borrow again from 2 weeks
+
+    }
+
   useEffect(()=>{
       const currentBook = bookList.find(book => book.id=== id);
       if(currentBook){
@@ -37,7 +66,7 @@ const BookLanding = () => {
       }
       
       
-  }, [])
+  }, [bookList, id, navigate]);
 
   return (
     <BaseLayout>
@@ -57,12 +86,20 @@ const BookLanding = () => {
             <p>Published {selectedBook.year}</p>
             <p>{selectedBook.summary}</p>
             <div>
-              {userInfo.uid ? (<Button>Burrow</Button>) :(<Link to={'/login'} state= {{ path:`books/${id}`}}><Button>Login to Burrow</Button></Link>)}
+              {userInfo.uid ? (
+                selectedBook.isAvailable ? 
+              <Button onClick={handleOnBorrow}>Burrow</Button>
+               :
+               <Button disabled onClick={handleOnBorrow}>Available from {new Date(selectedBook.availableForm).toLocaleDateString()}
+               </Button>
+              ) :
+               (<Link to={'/login'} state= {{ path:`books/${id}`}}>
+                <Button>Login to Burrow</Button>
+                </Link>
+                )}
               
             </div>
-
           </Col>
-          
         </Row>
       </Container>
 
