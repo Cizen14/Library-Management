@@ -6,7 +6,7 @@ import CustomInput from '../../../Components/CustomInput/CustomInput';
 import { toast } from 'react-toastify';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../../../firebase-config';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserInfoAction } from '../../../redux/authAction';
 
@@ -54,7 +54,13 @@ const Login = () => {
 
 useEffect(()=>{
   if(userInfo.uid){
-    navigate('/dashboard');
+   
+    if (location.state.path) {
+      navigate(location.state.path);
+    }
+    else{
+      navigate('/dashboard');
+    }
   }
 
 }, [userInfo])
@@ -76,6 +82,7 @@ useEffect(()=>{
         Submit
       </Button>
     </Form>
+    Forget password ? <Link to={"/reset-password"}> Reset Password</Link>
     </div>
     </BaseLayout>
   )

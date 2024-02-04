@@ -16,19 +16,19 @@ const inputs = [
   { name: "url",label:"Image Url", placeholder: "https://image-url.com", required:true},
  
 ]
-const initialBookValue= {
-  isbn: '',
-  title: '',
-  author: '',
-  summary : '',
-  year:'',
-  url: ''
+// const initialBookValue= {
+//   isbn: '',
+//   title: '',
+//   author: '',
+//   summary : '',
+//   year:'',
+//   url: ''
 
-}
+// }
 
 const AddBook = () => {
   const formRef = useRef();
-  const [formData, setFormData] = useState(initialBookValue );
+  const [formData, setFormData] = useState({isAvailable: true} );
   
   const handleChange = (e)=>{
     const {name , value} = e.target;
@@ -36,7 +36,7 @@ const AddBook = () => {
   }
   const handleSubmit = async(e) =>{
     e.preventDefault();
-    const {email, password} = formData;
+  
     try{
       const {year} = formData;
       
@@ -47,25 +47,25 @@ const AddBook = () => {
       addBookAction(formData);
 
       //reset form data
-      setFormData({initialBookValue});
+      // setFormData({initialBookValue});
+      formRef.current.reset();
+     }
+     catch(e) {
+      console.log(e)
      }
 
-  catch(e) {
-   
-}
   }
 
   return (
-    <div>
-     <AdminLayout title={"Edit Book"}>
-    
+   
+     <AdminLayout title={"Add Book"}>
       <Link to={'/books'}><Button>Go back </Button></Link>
      <div className='p-3 border shadow rounded login-form'>
     <h1>New Book Info</h1>
       <Form onSubmit={handleSubmit} ref={formRef}>
       {
         inputs.map(input=>(
-          <CustomInput key={input.name} label={input.label} value={formData[input.name]} onChange={handleChange}{...input}/>
+          <CustomInput key={input.name} label={input.label}  onChange={handleChange}{...input}/>
         ))
       }
      
@@ -76,7 +76,7 @@ const AddBook = () => {
     </div>
           
      </AdminLayout>
-    </div>
+    
   )
 }
 

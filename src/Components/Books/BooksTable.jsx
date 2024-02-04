@@ -9,7 +9,7 @@ const BooksTable = () => {
 
     //get book list from redux
     const {bookList} = useSelector(state=>state.book);
-    console.log(bookList)
+
 
     
 
@@ -19,9 +19,9 @@ const BooksTable = () => {
   dispatch(deleteBookAction(id));
 
  }
-
-  
-
+useEffect (()=>{
+  dispatch(getBookListAction());
+})
 
   return (
     <Table striped bordered hover>
@@ -38,25 +38,23 @@ const BooksTable = () => {
     </thead>
     <tbody>
         {  
-
-
-        bookList.map((book, index) => (
-            <tr key ={book.id}>
+        bookList.map(({ id, isbn, url, title, author, summary, year }, index) => (
+            <tr key ={id}>
                 <td>{index +1 }</td>
-                <td>{book.isbn}</td>
+                <td>{isbn}</td>
                 <td>
-                    <img src={book.url} alt='book-image'/></td>
-                <td>{book.title} - {book.year}
-                <p> {book.summary}</p>
+                    <img src={url} alt='book-image'/></td>
+                <td>{title} - {year}
+                <p> {summary}</p>
                 </td>
-                <td>{book.author}</td>
+                <td>{author}</td>
                 <td>
-                    <Link to={`/books/edit/${book.id}`}>
+                    <Link to={`/books/edit/${id}`}>
                     < Button variant='warning'>Edit</Button>
                   
                     </Link>
                     <Button variant='danger' onClick={()=> {
-                      console.log(book.id);
+                      
                       handleDelete(book.id)}}>Delete</Button>
                 </td>
             </tr>
