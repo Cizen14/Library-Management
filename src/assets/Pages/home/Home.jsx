@@ -10,7 +10,7 @@ const Home = () => {
   <BaseLayout>
     <BookCarousels />
     <AvailableBooks />
-    <BookCard />
+   
   </BaseLayout>
   )
 }

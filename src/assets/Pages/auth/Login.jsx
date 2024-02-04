@@ -55,7 +55,7 @@ const Login = () => {
 useEffect(()=>{
   if(userInfo.uid){
    
-    if (location.state.path) {
+    if (location.state?.path) {
       navigate(location.state.path);
     }
     else{

@@ -8,21 +8,17 @@ import { setBookList, setSelectedBook } from "./bookSlice";
 export const addBookAction = async (bookInfo) =>{
     try{
         const docRef= await addDoc(collection(db, "books"),bookInfo);
-        toast.success("Book Added Successfully")
-        
+        toast.success("Book Added Successfully")  
 
     }
     catch (e){
-
         toast.error("Error Occured")
     }
 }
 
 export const getBookListAction = () => async(dispatch)=>{
 try{
-
     //get the books list from the firebase db
-
     const querySnapshotPromise= getDocs(collection(db, 'books'));
     toast.promise(querySnapshotPromise,{
         pending:'In Progress ...'
@@ -38,7 +34,7 @@ try{
      });
  
      dispatch(setBookList(booksListArr));
-     console.log('book fetched');
+    
         }
 catch(error){
  console.log(error.message)

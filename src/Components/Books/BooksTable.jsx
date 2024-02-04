@@ -10,18 +10,14 @@ const BooksTable = () => {
     //get book list from redux
     const {bookList} = useSelector(state=>state.book);
 
-
-    
-
-   
  const handleDelete = (id) =>{
-  console.log(id)
+
   dispatch(deleteBookAction(id));
 
  }
 useEffect (()=>{
   dispatch(getBookListAction());
-})
+},[]);
 
   return (
     <Table striped bordered hover>
@@ -60,15 +56,6 @@ useEffect (()=>{
             </tr>
         ))
         }
-
-
-
-
-
-
-
-
-
             
     </tbody>
   </Table>
