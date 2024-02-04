@@ -87,7 +87,7 @@ export const deleteBookAction = (id)=> async(dispatch) =>{
         })
         await deleteDoc(bookRef)
         dispatch(getBookListAction())
-        toast.success("Book Deleted")
+        toast.success("Book Deleted!")
     }
     catch(e){
         console.log(e);

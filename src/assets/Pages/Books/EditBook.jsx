@@ -44,7 +44,7 @@ const EditBook = () => {
     
     try{
       
-     updateBookAction(formData);
+    
      dispatch(getBookListAction());
     }
   catch(e) {
