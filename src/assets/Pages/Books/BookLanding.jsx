@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { updateBookAction } from "../../../redux/books/bookAction";
+import { addBorrowHistoryAction } from "../../../redux/borrowHistory/borrowHistoryAction";
 
 //converted days into ms 
 const FOURTEEN_DAYS_IN_MS = 14 * 24 * 60 * 60 *1000;
@@ -82,7 +83,7 @@ const BookLanding = () => {
           <Col>
             <h3>{selectedBook.title}</h3>
             <p> By {selectedBook.author}</p>
-            <p>Ratin 5 star</p>
+            <p>Rating 5 star</p>
             <p>Published {selectedBook.year}</p>
             <p>{selectedBook.summary}</p>
             <div>

@@ -9,6 +9,7 @@ import {  createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from '../../../firebase-config';
 import { doc, setDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import AdminLayout from '../../../Components/Layout/AdminLayout';
 
 
 
@@ -77,7 +78,7 @@ const AdminSignup = () => {
   }
   return (
    <>
-   <BaseLayout>
+   <AdminLayout>
    <div className='p-3 border shadow rounded login-form'>
     <h1> Admin Page</h1>
       <Form onSubmit={handleSubmit}>
@@ -94,7 +95,7 @@ const AdminSignup = () => {
     </div>
    
   
-   </BaseLayout>
+   </AdminLayout>
    </>
   )
 }

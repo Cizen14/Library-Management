@@ -6,7 +6,7 @@ const Sidebar = () => {
     const {userInfo} = useSelector(state=> state.auth);
   return (
     <div className='bg-dark text-light'>
-        <div className='mt-4 p-2 text-center'> Welcome {userInfo.fName} <br></br> 👋! </div>
+        <div className='mt-4 p-2 text-center'> Welcome {userInfo.fName} ! ({userInfo.role}) <br></br> 👋! </div>
         <hr />
         <ul className='list-unstyled ps-2 d-flex flex-column gap-2' >
         {userInfo.role === "student" || userInfo.role === "admin" &&
