@@ -82,8 +82,12 @@ useEffect(()=>{
         Submit
       </Button>
     </Form>
-    Forget password ? <Link to={"/reset-password"}> Reset Password</Link>
+    Forget password ? <Link to={"/reset-password"}> Reset Password</Link> 
+    <div> Don't have an account? <Link to={"/signup"}> Signup</Link></div>
     </div>
+   
+    
+   
     </BaseLayout>
   )
 

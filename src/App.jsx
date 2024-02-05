@@ -13,6 +13,8 @@ import PrivateRoute from './Components/PrivateRoute/PrivateRoute'
 import History from './assets/Pages/History/History'
 import Home from './assets/Pages/home/Home'
 import BookLanding from './assets/Pages/Books/BookLanding'
+import Signup from './assets/Pages/auth/Signup'
+
 
 
 
@@ -25,12 +27,13 @@ function App() {
       <Route path='/' element={ <Home />} />
       <Route path='/books/:id' element={ <BookLanding />}></Route>
       <Route path='/login' element={ <Login />} />
-      <Route path='/admin-signup' element={ <AdminSignup />} />
+      <Route path='/signup' element={<Signup/>}></Route>
       <Route path='/reset-password' element={ <ResetPassword />} />
 
       <Route path='/dashboard' element={<PrivateRoute><Dashboard/></PrivateRoute>} />
       
       <Route path='/history' element={<PrivateRoute><History/></PrivateRoute>} />
+      <Route path='/admin-signup' element={<PrivateRoute><AdminSignup/></PrivateRoute>} />
       
       <Route path='/books/add' element={<PrivateRoute><AddBook/></PrivateRoute> }/>
       <Route path='/books/edit/:id' element={<PrivateRoute><EditBook/></PrivateRoute>} />

@@ -34,17 +34,20 @@ const Header = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
            
-            {userInfo.uid ?  (
-              <Link to="#" onClick={handleLogout} className='nav-link'>Logout</Link>
-             
-
-            )
-            : (
+            {userInfo.uid ?(
               <>
-              <Link to="/dashboard" className='nav-link'>Dashboard</Link>
-              <Link to="/admin-signup" className='nav-link'>Signup</Link>
-  
-              <Link to="/login" className='nav-link'>Login</Link>
+                {userInfo.role === "student" ?
+                  <Link to="/history" className="nav-link">History</Link>
+                :
+                  <Link to="/dashboard" className="nav-link">Dashboard</Link>
+                }
+                <Link to="#" onClick={handleLogout} className="nav-link">Logout</Link>
+              </>            
+            ): (
+              <>
+                
+                <Link to="/signup" className="nav-link">Signup</Link>
+                <Link to="/login" className="nav-link">Login</Link>
               </>
               
 
